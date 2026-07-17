@@ -26,7 +26,7 @@ and automatically enriches every future prompt with relevant context.
 ### macOS / Linux
 
 ```bash
-git clone <repo-url>
+git clone https://github.com/Dhanushi2620/FME
 cd fme
 chmod +x setup.sh
 ./setup.sh
@@ -37,7 +37,7 @@ chmod +x setup.sh
 On Windows, run `setup.sh` from **Git Bash** (not PowerShell or CMD):
 
 ```bash
-git clone <fme-repo-url>
+git clone https://github.com/Dhanushi2620/FME
 cd fme
 bash setup.sh
 ```
