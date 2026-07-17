@@ -1,0 +1,11 @@
+---
+description: "Refactor Async File System Operations in Node.js"
+alwaysApply: false
+fme_score: 0.800
+fme_created: "2026-07-17"
+---
+
+# Refactor Async File System Operations in Node.js
+
+1. Identify and refactor sync fs usage to async fs versions
+2. Apply existing patterns for common tasks like file existence checks

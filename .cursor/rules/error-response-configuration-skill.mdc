@@ -1,0 +1,12 @@
+---
+description: "Error Response Configuration"
+alwaysApply: false
+fme_score: 1.000
+fme_created: "2026-07-17"
+---
+
+# Error Response Configuration
+
+1. Identify Error Response
+2. Log Full Error Server-Side
+3. Return Generic Client Message

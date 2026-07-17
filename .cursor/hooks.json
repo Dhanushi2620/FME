@@ -1,0 +1,15 @@
+{
+  "version": 1,
+  "hooks": {
+    "beforeSubmitPrompt": [
+      {
+        "command": ".cursor/hooks/capture-feedback.sh"
+      }
+    ],
+    "afterAgentResponse": [
+      {
+        "command": ".cursor/hooks/capture-response.sh"
+      }
+    ]
+  }
+}

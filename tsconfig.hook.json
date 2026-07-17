@@ -1,0 +1,17 @@
+{
+  "extends": "./tsconfig.json",
+  "compilerOptions": {
+    "outDir": "dist/hook",
+    "rootDir": "src"
+  },
+  "include": [
+    "src/**/*.ts",
+    "src/demo/updateAiResponse.ts",
+    "src/services/batch/runBatch.ts",
+    "src/services/batch/CronService.ts"
+  ],
+  "exclude": [
+    "src/**/*.test.ts",
+    "src/mcp/**"
+  ]
+}

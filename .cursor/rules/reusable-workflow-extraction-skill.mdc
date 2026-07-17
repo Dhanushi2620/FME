@@ -1,0 +1,11 @@
+---
+description: "Reusable Workflow Extraction"
+alwaysApply: false
+fme_score: 0.950
+fme_created: "2026-07-17"
+---
+
+# Reusable Workflow Extraction
+
+1. Extract reusable workflows daily
+2. Generate skill files for reuse

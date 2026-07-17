@@ -1,0 +1,48 @@
+---
+description: "Always validate request bodies with Zod before they reach the controller layer"
+alwaysApply: true
+---
+
+# Zod Request Body Validation
+
+Validate every request body with a Zod schema in middleware (or the route layer) before the controller runs. Controllers must receive already-parsed, typed data — never raw `req.body`.
+
+## Do / Don't
+
+```typescript
+// ❌ BAD — controller trusts unvalidated input
+export async function createUser(req: Request, res: Response) {
+  const { email, role } = req.body;
+  await userService.create({ email, role });
+}
+
+// ✅ GOOD — Zod schema + middleware before controller
+// src/schemas/user.ts
+export const createUserSchema = z.object({
+  email: z.string().email(),
+  role: z.enum(["user", "admin"]),
+});
+
+// src/middleware/validate.ts
+export function validateBody<T extends z.ZodType>(schema: T) {
+  return (req: Request, res: Response, next: NextFunction) => {
+    const result = schema.safeParse(req.body);
+    if (!result.success) {
+      return res.status(400).json({ error: "Invalid request body" });
+    }
+    req.body = result.data;
+    next();
+  };
+}
+
+// src/routes/users.ts
+router.post("/", validateBody(createUserSchema), createUser);
+```
+
+## Checklist
+
+- Define schemas in `src/schemas` (or equivalent); keep them out of controllers.
+- Attach validation middleware on the route so invalid bodies never reach the controller.
+- Prefer `safeParse` in middleware and return a stable 400 — do not leak internal Zod paths/stack traces beyond safe validation messages.
+- Controllers use the parsed body (typed from the schema), not ad-hoc casts of `req.body`.
+- Apply the same boundary validation to query/params when those drive business logic.

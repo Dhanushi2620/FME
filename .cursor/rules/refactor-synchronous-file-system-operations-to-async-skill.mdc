@@ -1,0 +1,12 @@
+---
+description: "Refactor Synchronous File System Operations to Async"
+alwaysApply: false
+fme_score: 0.850
+fme_created: "2026-07-17"
+---
+
+# Refactor Synchronous File System Operations to Async
+
+1. Identify and replace synchronous file system operations with their asynchronous counterparts.
+2. Update existing sync `fs` usage in services like RuleEvaluator.ts, BufferManager.ts, and BatchWriteService.ts with async versions.
+3. Address potential outside request handlers (cron, hooks) by considering a refactoring plan.

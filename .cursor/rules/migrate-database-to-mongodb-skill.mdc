@@ -1,0 +1,14 @@
+---
+description: "Migrate Database to MongoDB"
+alwaysApply: false
+fme_score: 0.900
+fme_created: "2026-07-17"
+---
+
+# Migrate Database to MongoDB
+
+1. Review current database schema and operations for migration readiness
+2. Update Prisma schema to match new MongoDB data model
+3. Configure MongoDB connection settings in codebase
+4. Perform initial data import from PostgreSQL using a migration tool
+5. Test application with migrated data in isolated environment

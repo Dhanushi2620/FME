@@ -1,0 +1,12 @@
+---
+description: "Workflow Creation"
+alwaysApply: false
+fme_score: 0.980
+fme_created: "2026-07-17"
+---
+
+# Workflow Creation
+
+1. Scan buffered conversations for reusable workflows
+2. Extract and classify the workflow using Ollama's Qwen-2.5 model
+3. Generate a `.skill.mdc` file to document the reusable workflow

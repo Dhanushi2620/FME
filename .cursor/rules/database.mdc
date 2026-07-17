@@ -1,0 +1,27 @@
+---
+description: "Always use PostgreSQL for database storage and queries. Do not introduce MongoDB or other document stores."
+alwaysApply: true
+fme_score: 0.950
+fme_created: "2026-07-15"
+fme_last_updated: "2026-07-16"
+fme_reinforcement_count: 1
+fme_contradiction_count: 1
+---
+
+# Why this rule exists
+
+This project standardizes on PostgreSQL. Do not migrate to MongoDB or introduce other document databases.
+
+# Rule
+
+Always use PostgreSQL for database operations. Do not use MongoDB for new work; keep existing and new data access on PostgreSQL.
+
+# Checklist
+
+- Use PostgreSQL for database storage and queries.
+- Do not add MongoDB (or other document-store) data layers or dependencies.
+- Prefer PostgreSQL-native patterns (SQL, Prisma/Postgres, parameterized queries) over document-store APIs.
+
+# Related technologies
+
+- PostgreSQL

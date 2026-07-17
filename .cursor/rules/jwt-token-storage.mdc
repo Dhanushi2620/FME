@@ -1,0 +1,30 @@
+---
+description: "Never store JWT tokens in localStorage — always use httpOnly cookies with SameSite=Strict"
+alwaysApply: true
+---
+
+# JWT Token Storage
+
+Never store JWT (or other auth) tokens in `localStorage` or `sessionStorage`. Tokens in web storage are readable by any XSS script. Prefer `httpOnly` cookies with `SameSite=Strict` so the browser sends them automatically and JavaScript cannot access them.
+
+## Do / Don't
+
+```typescript
+// ❌ BAD — XSS can steal the token
+localStorage.setItem("accessToken", jwt);
+sessionStorage.setItem("token", jwt);
+
+// ✅ GOOD — server sets httpOnly + SameSite=Strict cookie
+res.cookie("access_token", jwt, {
+  httpOnly: true,
+  secure: true,
+  sameSite: "strict",
+  path: "/",
+});
+```
+
+## Client usage
+
+- Do not read auth tokens from JS storage or attach them manually from `localStorage`.
+- Use `credentials: "include"` (or equivalent) so cookies are sent on API requests.
+- Keep token issuance, refresh, and clearing on the server via `Set-Cookie` / cookie expiry.

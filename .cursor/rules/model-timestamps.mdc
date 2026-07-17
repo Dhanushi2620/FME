@@ -1,0 +1,33 @@
+---
+description: "Every database model must include createdAt and updatedAt timestamps"
+alwaysApply: true
+---
+
+# Model Timestamps
+
+Every database model must have `createdAt` and `updatedAt` fields. Never create a model without them.
+
+## Do / Don't
+
+```prisma
+// ❌ BAD — no audit timestamps
+model User {
+  id    String @id @default(uuid())
+  email String @unique
+}
+
+// ✅ GOOD — createdAt + updatedAt on every model
+model User {
+  id        String   @id @default(uuid())
+  email     String   @unique
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+}
+```
+
+## Checklist
+
+- Add `createdAt` and `updatedAt` to every new Prisma model (or equivalent in raw SQL migrations).
+- Use `@default(now())` for `createdAt` and `@updatedAt` for `updatedAt` in Prisma so they are set automatically.
+- Include both fields in migrations when adding new tables — do not add them later as an afterthought.
+- Do not omit timestamps on join/lookup tables unless there is an explicit, documented exception.

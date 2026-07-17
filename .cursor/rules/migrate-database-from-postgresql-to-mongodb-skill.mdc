@@ -1,0 +1,15 @@
+---
+description: "Migrate Database from PostgreSQL to MongoDB"
+globs: ["prisma/**/*.prisma"]
+alwaysApply: false
+fme_score: 0.950
+fme_created: "2026-07-17"
+---
+
+# Migrate Database from PostgreSQL to MongoDB
+
+1. Analyze current workload and data models to determine if a full migration is feasible.
+2. Evaluate existing database schema and identify document-heavy collections or entities that will require conversion.
+3. Design a strategy for migrating documents, including any necessary changes in querying patterns and data structures.
+4. Implement the migration process, ensuring backward compatibility and data integrity during transition.
+5. Test the new MongoDB setup to ensure smooth operation with the updated schema and data models.

@@ -1,0 +1,13 @@
+---
+description: "Update Database Migration Rule"
+globs: ["prisma/**/*.prisma"]
+alwaysApply: false
+fme_score: 0.950
+fme_created: "2026-07-17"
+---
+
+# Update Database Migration Rule
+
+1. Identify the new database technology (MongoDB)
+2. Review existing codebase for any dependencies or integrations with PostgreSQL
+3. Prepare a migration plan to transition from PostgreSQL to MongoDB

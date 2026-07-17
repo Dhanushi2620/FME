@@ -1,0 +1,15 @@
+---
+description: "Understand Rule Evaluation and Updates in Cursor IDE"
+globs: ["src/**/*.ts", "prisma/**/*.prisma"]
+alwaysApply: false
+fme_score: 0.850
+fme_created: "2026-07-17"
+---
+
+# Understand Rule Evaluation and Updates in Cursor IDE
+
+1. Monitor CronService for batch scheduling
+2. Identify where rules are evaluated within the process (persistEntry)
+3. Determine the trigger for updating rules (shouldCreateOrUpdateRule function)
+4. Understand how rules are updated (createOrUpdateRule function)
+5. Learn when decay is applied to rule scores (applyTimeDecay function)

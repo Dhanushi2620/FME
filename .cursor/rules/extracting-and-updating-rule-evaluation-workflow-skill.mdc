@@ -1,0 +1,16 @@
+---
+description: "Extracting and Updating Rule Evaluation Workflow"
+globs: ["src/**/*.ts", "prisma/**/*.prisma"]
+alwaysApply: false
+fme_score: 0.900
+fme_created: "2026-07-17"
+---
+
+# Extracting and Updating Rule Evaluation Workflow
+
+1. Verify rule updates per newly stored memory
+2. Identify when `RuleEvaluator.evaluate()` is invoked (once per memory)
+3. Understand trigger conditions for creating or updating rules
+4. Determine the scope of revisited rules during batch execution
+5. Timing and frequency of `applyTimeDecay()`
+6. Evaluate potential decrease in rule score based on memory absence

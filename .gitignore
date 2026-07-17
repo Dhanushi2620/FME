@@ -1,0 +1,10 @@
+node_modules/
+dist/
+feedback-memory-inference/.venv/
+feedback-memory-inference/.venv-chroma/
+feedback-memory-inference/chroma-data/
+feedback-memory-inference/logs/
+*.log
+.env
+.env.*
+!.env.example

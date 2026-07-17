@@ -1,0 +1,12 @@
+---
+description: "Update Database Rule"
+alwaysApply: false
+fme_score: 0.950
+fme_created: "2026-07-17"
+---
+
+# Update Database Rule
+
+1. Review current database rule to ensure it aligns with the new decision to migrate from PostgreSQL to MongoDB.
+2. Modify the existing `.cursor/rules/database.mdc` file to reflect the migration decision and remove any references to PostgreSQL.
+3. Set `fme_contradiction_count` to `1` to supersede the prior PostgreSQL rule.

@@ -1,0 +1,14 @@
+---
+description: "Logging Truncation Removal"
+globs: ["src/**/*.js", "src/**/*.ts", "src/**/*.tsx"]
+alwaysApply: false
+fme_score: 0.950
+fme_created: "2026-07-17"
+---
+
+# Logging Truncation Removal
+
+1. Locate all instances of .slice() or any character limit on logged fields in src/services/batch/BatchWriteService.ts, src/services/batch/CronService.ts, and src/services/evaluation/RuleEvaluator.ts.
+2. Remove all occurrences of .slice() or .substring() from the identified log lines.
+3. Check ollama_metadata.log for truncated field logging and remove any truncation.
+4. Rebuild project as specified in the original command.

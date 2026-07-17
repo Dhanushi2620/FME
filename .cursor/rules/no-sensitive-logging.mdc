@@ -1,0 +1,29 @@
+---
+description: "Never log sensitive data like passwords, tokens, or credit card numbers anywhere in the codebase"
+alwaysApply: true
+---
+
+# Sensitive Data Logging
+
+Never log passwords, auth tokens, session cookies, credit card numbers, CVVs, full PANs, government IDs, or other secrets. Logs are often retained, forwarded, and broadly accessible.
+
+## Do / Don't
+
+```typescript
+// ❌ BAD — secrets end up in log aggregators
+logger.info("Login attempt", { email, password });
+console.log("Token issued", accessToken);
+logger.debug("Payment", { cardNumber, cvv });
+
+// ✅ GOOD — log non-sensitive identifiers only; redact the rest
+logger.info("Login attempt", { email, password: "[REDACTED]" });
+logger.info("Token issued", { userId, tokenType: "access" });
+logger.debug("Payment", { last4: card.last4, brand: card.brand });
+```
+
+## Checklist
+
+- Do not pass raw request bodies, headers (`Authorization`, `Cookie`), or env secrets into log statements.
+- Prefer allowlisted fields over dumping whole objects (`req`, `user`, `payload`).
+- If a library may auto-log requests/responses, configure redaction for sensitive keys (`password`, `token`, `authorization`, `cardNumber`, etc.).
+- In tests and error messages, assert on behavior — never print fixtures that contain real credentials or production tokens.

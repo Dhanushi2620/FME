@@ -1,0 +1,11 @@
+---
+description: "Database Model Timestamps"
+globs: ["prisma/**/*.prisma"]
+alwaysApply: false
+fme_score: 1.000
+fme_created: "2026-07-17"
+---
+
+# Database Model Timestamps
+
+1. Add createdAt and updatedAt to all Prisma models

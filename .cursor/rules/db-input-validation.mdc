@@ -1,0 +1,28 @@
+---
+description: "Always sanitize and validate user input before passing it to any database query — never trust raw user input"
+alwaysApply: true
+---
+
+# Database Input Validation
+
+Never pass raw request/query/body values straight into database queries. Validate and sanitize user input first. Prefer parameterized queries / prepared statements over string concatenation to prevent SQL/NoSQL injection.
+
+## Do / Don't
+
+```typescript
+// ❌ BAD — trusts raw input; injection risk
+db.query(`SELECT * FROM users WHERE email = '${req.body.email}'`);
+collection.find({ $where: req.query.filter });
+
+// ✅ GOOD — validate shape, then parameterize
+const email = z.string().email().parse(req.body.email);
+db.query("SELECT * FROM users WHERE email = $1", [email]);
+```
+
+## Checklist
+
+- Validate types, lengths, formats, and enums at the API boundary (schema validation).
+- Use parameterized queries / ORM bind parameters for all dynamic values.
+- Never build SQL/filter expressions by concatenating or interpolating untrusted strings.
+- Whitelist allowed sort/filter field names; do not accept arbitrary column or operator names from clients.
+- Reject unexpected keys early rather than forwarding whole payloads into query builders.

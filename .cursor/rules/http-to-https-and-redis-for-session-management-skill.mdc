@@ -1,0 +1,13 @@
+---
+description: "HTTP to HTTPS and Redis for Session Management"
+globs: ["src/services/**/*.ts", "src/events/**/*.ts"]
+alwaysApply: false
+fme_score: 0.950
+fme_created: "2026-07-17"
+---
+
+# HTTP to HTTPS and Redis for Session Management
+
+1. Understand the requirement
+2. Ensure HTTP is not allowed in production
+3. Switch session management from DB to Redis

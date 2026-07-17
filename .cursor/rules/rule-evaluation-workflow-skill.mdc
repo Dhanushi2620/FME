@@ -1,0 +1,13 @@
+---
+description: "Rule Evaluation Workflow"
+alwaysApply: false
+fme_score: 0.950
+fme_created: "2026-07-17"
+---
+
+# Rule Evaluation Workflow
+
+1. Prompt is submitted and buffered for later processing.
+2. Cron job runs every 15 minutes, processes buffered prompts into batches and executes them through `BatchWriteService`.
+3. If the memory is stored successfully, `RuleEvaluator.evaluate()` runs to check existing rules on it.
+4. For a matching topic `.mdc`, `evaluateExistingRule` in `RuleEvaluator` runs if a new memory was touched that already has an existing rule for that topic.

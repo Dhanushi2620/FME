@@ -1,0 +1,12 @@
+---
+description: "Refactor Async File System Operations"
+alwaysApply: false
+fme_score: 0.900
+fme_created: "2026-07-17"
+---
+
+# Refactor Async File System Operations
+
+1. Identify and document all existing sync `fs` usage in critical services.
+2. Replace sync `fs` with async `fs` methods such as `node:fs/promises`.
+3. Implement try/catch or `fs.access` for file existence checks.

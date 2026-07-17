@@ -1,0 +1,12 @@
+---
+description: "Automated Log Truncation Removal"
+alwaysApply: false
+fme_score: 0.950
+fme_created: "2026-07-17"
+---
+
+# Automated Log Truncation Removal
+
+1. Identify and remove all .slice() or .substring() operations from batchLog lines in BatchWriteService.ts, CronService.ts, and RuleEvaluator.ts.
+2. Ensure full content logging by removing truncations from ollama_metadata.log if applicable.
+3. Rebuild the project after changes.

@@ -1,0 +1,12 @@
+---
+description: "Establishing Timestamps in Database Models"
+globs: ["prisma/**/*.prisma"]
+alwaysApply: false
+fme_score: 1.000
+fme_created: "2026-07-17"
+---
+
+# Establishing Timestamps in Database Models
+
+1. Define Prisma Model Rules
+2. Apply Prisma Model Rules

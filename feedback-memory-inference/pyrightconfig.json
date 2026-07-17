@@ -1,0 +1,7 @@
+{
+  "include": ["metadata", "intent", "embedding", "tests"],
+  "extraPaths": ["."],
+  "venvPath": ".",
+  "venv": ".venv-chroma",
+  "pythonVersion": "3.9"
+}

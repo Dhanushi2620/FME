@@ -1,0 +1,14 @@
+---
+description: "Prompt Evaluation and Rule Management"
+alwaysApply: false
+fme_score: 0.900
+fme_created: "2026-07-17"
+---
+
+# Prompt Evaluation and Rule Management
+
+1. Buffer prompt in Developer's IDE
+2. Process prompts via Cron job (every 15 minutes) for batch processing
+3. Extract metadata, deduplicate, and store memory using ChromaDB
+4. Evaluate existing rules on stored memory if a matching topic .mdc exists
+5. Apply time decay to rule score only when a new memory touches the same topic

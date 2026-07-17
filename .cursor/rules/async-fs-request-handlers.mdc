@@ -1,0 +1,56 @@
+---
+description: "Never use synchronous file system operations in request handlers — always use async versions"
+alwaysApply: true
+---
+
+# Async File System in Request Handlers
+
+Never call synchronous `fs` methods inside request handlers (routes, controllers, middleware). Sync I/O blocks the event loop and stalls concurrent requests. Use `fs/promises` or callback-based APIs wrapped in `util.promisify`.
+
+## Do / Don't
+
+```typescript
+import fs from "node:fs/promises";
+import path from "node:path";
+
+// ❌ BAD — blocks the event loop during the request
+export async function getReport(req: Request, res: Response) {
+  if (!fs.existsSync(reportPath)) {
+    return res.status(404).json({ error: "Not found" });
+  }
+  const data = fs.readFileSync(reportPath, "utf-8");
+  res.json(JSON.parse(data));
+}
+
+// ✅ GOOD — async I/O; other requests keep flowing
+export async function getReport(req: Request, res: Response) {
+  try {
+    const data = await fs.readFile(reportPath, "utf-8");
+    res.json(JSON.parse(data));
+  } catch (err) {
+    if ((err as NodeJS.ErrnoException).code === "ENOENT") {
+      return res.status(404).json({ error: "Not found" });
+    }
+    throw err;
+  }
+}
+```
+
+## Sync → async mapping
+
+| Avoid (sync) | Prefer (async) |
+|---|---|
+| `fs.readFileSync` | `await fs.readFile` |
+| `fs.writeFileSync` | `await fs.writeFile` |
+| `fs.appendFileSync` | `await fs.appendFile` |
+| `fs.mkdirSync` | `await fs.mkdir` |
+| `fs.unlinkSync` | `await fs.unlink` |
+| `fs.readdirSync` | `await fs.readdir` |
+| `fs.statSync` / `fs.existsSync` | `await fs.stat` / `await fs.access` (handle `ENOENT`) |
+
+## Checklist
+
+- In route handlers, controllers, and middleware, import from `node:fs/promises` — not sync `node:fs` helpers.
+- Replace `existsSync` checks with `try/catch` around the read/write call, or `fs.access`.
+- Keep sync `fs` only in one-off scripts, CLI entrypoints, or module init that runs once at startup — not per request.
+- When a service is called from handlers, its public methods should also use async file I/O.

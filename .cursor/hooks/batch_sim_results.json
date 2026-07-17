@@ -1,0 +1,72 @@
+[
+  {
+    "i": 1,
+    "gen": "5724ab79-2941-472e-aa60-1360d1d16fb9",
+    "prompt": "hi can you help",
+    "buffer_len": 0,
+    "hook_rc": 0
+  },
+  {
+    "i": 2,
+    "gen": "9601cf5e-99ca-4ff5-91f4-42f0a1208bae",
+    "prompt": "Never use localStorage for tokens \u2014 always use httpOnly cookies",
+    "buffer_len": 0,
+    "hook_rc": 0
+  },
+  {
+    "i": 3,
+    "gen": "b4a267f6-ac8f-4488-b035-34141a6073d8",
+    "prompt": "fix this typo please",
+    "buffer_len": 0,
+    "hook_rc": 0
+  },
+  {
+    "i": 4,
+    "gen": "9738293b-b6f9-4585-9371-da325960dc1b",
+    "prompt": "We decided to always use PostgreSQL instead of MongoDB",
+    "buffer_len": 1,
+    "hook_rc": 0
+  },
+  {
+    "i": 5,
+    "gen": "09033ea6-fc55-4731-9968-6ae6c891fafc",
+    "prompt": "what does this function do",
+    "buffer_len": 1,
+    "hook_rc": 0
+  },
+  {
+    "i": 6,
+    "gen": "1f93ed3b-5caf-4595-8b85-25597325ffea",
+    "prompt": "Always validate request bodies with Zod schemas",
+    "buffer_len": 1,
+    "hook_rc": 0
+  },
+  {
+    "i": 7,
+    "gen": "0c5f6f7f-dee2-4cc7-8b86-7a9bb903bdd7",
+    "prompt": "ok thanks",
+    "buffer_len": 1,
+    "hook_rc": 0
+  },
+  {
+    "i": 8,
+    "gen": "74040aac-24b1-4455-b178-4745766353d7",
+    "prompt": "Never use any type in TypeScript \u2014 always define proper interfaces",
+    "buffer_len": 2,
+    "hook_rc": 0
+  },
+  {
+    "i": 9,
+    "gen": "4078c93e-b37e-46de-94e1-101b3aada58f",
+    "prompt": "can you explain this code",
+    "buffer_len": 2,
+    "hook_rc": 0
+  },
+  {
+    "i": 10,
+    "gen": "1f28c883-7e95-485e-98ca-6cb278c77f72",
+    "prompt": "When adding API endpoint: route then controller then schema then register",
+    "buffer_len": 2,
+    "hook_rc": 0
+  }
+]

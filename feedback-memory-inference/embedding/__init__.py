@@ -1,0 +1,1 @@
+"""Embedding inference service."""

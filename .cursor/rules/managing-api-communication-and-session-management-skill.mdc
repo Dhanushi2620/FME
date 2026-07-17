@@ -1,0 +1,14 @@
+---
+description: "Managing API Communication and Session Management"
+alwaysApply: false
+fme_score: 0.900
+fme_created: "2026-07-17"
+---
+
+# Managing API Communication and Session Management
+
+1. Understand developer needs for HTTPS/HTTP communication in production environments.
+2. Create a rule ensuring all APIs are served over HTTPS only in production.
+3. Handle FME testing by buffering prompts without writing to `.cursor/rules/` files.
+4. Ensure Redis is used exclusively for session management, not the database.
+5. Interrogate and resolve the issue of an FM hook not firing properly.

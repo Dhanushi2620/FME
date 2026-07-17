@@ -1,0 +1,13 @@
+---
+description: "Refactoring File System Operations to be Async in Node.js"
+globs: ["src/**/*.js"]
+alwaysApply: false
+fme_score: 0.800
+fme_created: "2026-07-17"
+---
+
+# Refactoring File System Operations to be Async in Node.js
+
+1. Identify and Refactor Sync fs Usage
+2. Implement Promises for fs Operations
+3. Update Services Handling External Tasks

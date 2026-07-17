@@ -1,0 +1,13 @@
+---
+description: "Reverse Proxy Configuration Workflow"
+alwaysApply: false
+fme_score: 0.950
+fme_created: "2026-07-17"
+---
+
+# Reverse Proxy Configuration Workflow
+
+1. Ensure HTTP traffic to the application is blocked in production.
+2. Configure a reverse proxy (e.g., Nginx, Cloudflare) to terminate TLS and route HTTPS requests to the backend applications.
+3. Implement load balancing strategies if multiple instances are used.
+4. Add cross-cutting concerns such as rate limiting, authentication, caching, compression, access logs, and WAF rules using the reverse proxy.

@@ -1,0 +1,13 @@
+---
+description: "Extracting Reusable Engineering Workflows from Developer Conversations"
+alwaysApply: false
+fme_score: 0.900
+fme_created: "2026-07-17"
+---
+
+# Extracting Reusable Engineering Workflows from Developer Conversations
+
+1. Understand developer requests and preferences regarding HTTPS, JWT, Redis usage, etc.
+2. Buffer or evaluate prompts for FME testing without creating rules automatically
+3. Analyze logs to determine if FM hook issues are due to log staleness or memory match problems
+4. Save extracted knowledge as reusable workflows for future reference

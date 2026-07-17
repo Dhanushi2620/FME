@@ -1,0 +1,14 @@
+---
+description: "Verify and Update Rules Workflow"
+globs: ["src/**/*.ts", "prisma/**/*.prisma"]
+alwaysApply: false
+fme_score: 0.900
+fme_created: "2026-07-17"
+---
+
+# Verify and Update Rules Workflow
+
+1. Analyze the batch flow to understand rule evaluation frequency and triggers.
+2. Identify when `createOrUpdateRule()` is invoked and what it does based on memory metadata.
+3. Understand how rules are updated only for relevant memories, not all at once.
+4. Recognize that background decay applies only to existing rules and touches no new ones.

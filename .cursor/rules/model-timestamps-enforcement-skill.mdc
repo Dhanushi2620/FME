@@ -1,0 +1,11 @@
+---
+description: "Model Timestamps Enforcement"
+globs: ["prisma/**/*.prisma"]
+alwaysApply: false
+fme_score: 1.000
+fme_created: "2026-07-17"
+---
+
+# Model Timestamps Enforcement
+
+1. Define Prisma Model with `createdAt` and `updatedAt`

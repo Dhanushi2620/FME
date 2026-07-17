@@ -1,0 +1,14 @@
+---
+description: "Buffer Management and Logging"
+globs: ["src/**/*.ts", "src/**/*.tsx"]
+alwaysApply: false
+fme_score: 0.950
+fme_created: "2026-07-17"
+---
+
+# Buffer Management and Logging
+
+1. Updated `checkSkillPipeline` function to check every 5th prompt in the skill buffer.
+2. Added logging for buffer entries with AI responses using hookLogger.info.
+3. Updated `capture-response.sh` script to log full AI response without truncation.
+4. Modified `appendToBuffer` and `getUnprocessedBuffer` functions in `BufferManager.ts` to manage batchProcessed flag.

@@ -1,0 +1,30 @@
+---
+description: "Never expose internal server error details to API clients — always return generic error messages"
+alwaysApply: true
+---
+
+# API Error Responses
+
+Never return stack traces, SQL errors, file paths, env values, or other internal exception details to API clients. Log the full error server-side; respond with a generic, safe message and appropriate status code.
+
+## Do / Don't
+
+```typescript
+// ❌ BAD — leaks internals to the client
+res.status(500).json({ error: err.message, stack: err.stack });
+res.status(500).send(err.toString());
+
+// ✅ GOOD — generic client message; details stay in logs
+logger.error("Request failed", { err, requestId });
+res.status(500).json({
+  error: "Internal server error",
+  requestId, // safe correlation id only
+});
+```
+
+## Checklist
+
+- Catch unexpected errors in a central error handler; map known domain errors to stable client-facing codes/messages.
+- Never forward raw `err.message`, ORM/driver errors, or upstream service payloads on 5xx responses.
+- Include a request/correlation ID so support can look up the real error in logs.
+- Keep 4xx validation messages actionable but free of secrets and implementation details.

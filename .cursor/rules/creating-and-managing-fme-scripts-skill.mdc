@@ -1,0 +1,11 @@
+---
+description: "Creating and Managing FME Scripts"
+alwaysApply: false
+fme_score: 0.850
+fme_created: "2026-07-17"
+---
+
+# Creating and Managing FME Scripts
+
+1. Create `stop-fme.sh` script
+2. Create `status-fme.sh` script
