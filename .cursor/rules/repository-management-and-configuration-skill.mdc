@@ -1,0 +1,12 @@
+---
+description: "Repository Management and Configuration"
+alwaysApply: false
+fme_score: 1.000
+fme_created: "2026-07-17"
+---
+
+# Repository Management and Configuration
+
+1. Updated README.md with new description, performance metrics, and repository URL changes.
+2. Applied changes to stop-fme.sh script, including broader pkill patterns for sidecars.
+3. Ensured README file updates in fme-setup and fme-intern directories were committed and pushed.

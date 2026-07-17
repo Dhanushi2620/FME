@@ -1,0 +1,12 @@
+---
+description: "Reverse Proxy Operations"
+alwaysApply: false
+fme_score: 0.900
+fme_created: "2026-07-17"
+---
+
+# Reverse Proxy Operations
+
+1. Understand the role of a reverse proxy in application deployment
+2. Identify and implement a reverse proxy to enforce HTTPS termination and load balancing
+3. Configure the reverse proxy to handle traffic routing based on API requests or paths

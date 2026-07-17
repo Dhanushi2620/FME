@@ -1,0 +1,13 @@
+---
+description: "Logging Field Truncation Cleanup"
+globs: src/**/*.ts,src/**/*.tsx
+alwaysApply: false
+fme_score: 0.950
+fme_created: "2026-07-17"
+---
+
+# Logging Field Truncation Cleanup
+
+1. Identify and locate log truncation patterns (e.g., .slice(), .substring()) in multiple TypeScript files.
+2. Remove all identified truncations and ensure full content is logged or written.
+3. Rebuild the application to confirm changes have no negative impact.

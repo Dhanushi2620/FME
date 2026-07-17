@@ -1,0 +1,14 @@
+---
+description: "Setting Rules and Monitoring FM Hooks"
+alwaysApply: false
+fme_score: 0.850
+fme_created: "2026-07-17"
+---
+
+# Setting Rules and Monitoring FM Hooks
+
+1. Developer requests a rule to ensure all production traffic uses HTTPS.
+2. Cursor Agent mode is configured not to automatically create rules in Ask or Agent modes unless requested explicitly by the developer.
+3. Developer specifies FME hook-related questions should be handled as feedback for prompt buffering and evaluation, rather than automatic rule creation.
+4. Session management from database to Redis migration is noted.
+5. Developer's question about why the FM hook wasn't fired is addressed with a technical explanation of what might cause such an issue.

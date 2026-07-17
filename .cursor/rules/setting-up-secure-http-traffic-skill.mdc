@@ -1,0 +1,11 @@
+---
+description: "Setting Up Secure HTTP Traffic"
+alwaysApply: false
+fme_score: 0.950
+fme_created: "2026-07-17"
+---
+
+# Setting Up Secure HTTP Traffic
+
+1. Identify and enforce HTTPS protocol in production
+2. Ensure no plain HTTP traffic is allowed

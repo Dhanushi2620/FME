@@ -1,6 +1,6 @@
 ---
 description: "Async File System Operations in Request Handlers"
-globs: ["src/**/*.ts", "src/**/*.tsx"]
+globs: src/**/*.ts,src/**/*.tsx
 alwaysApply: false
 fme_score: 0.900
 fme_created: "2026-07-17"

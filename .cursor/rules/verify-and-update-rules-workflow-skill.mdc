@@ -1,6 +1,6 @@
 ---
 description: "Verify and Update Rules Workflow"
-globs: ["src/**/*.ts", "prisma/**/*.prisma"]
+globs: src/**/*.ts,prisma/**/*.prisma
 alwaysApply: false
 fme_score: 0.900
 fme_created: "2026-07-17"

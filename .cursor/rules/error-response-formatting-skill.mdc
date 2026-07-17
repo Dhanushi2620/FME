@@ -7,6 +7,5 @@ fme_created: "2026-07-17"
 
 # Error Response Formatting
 
-1. Log the error server-side
-2. Return a generic client message
-3. Provide a safe correlation id if used
+1. Review API error responses
+2. Apply rule to log full errors server-side and return generic client message

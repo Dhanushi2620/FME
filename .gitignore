@@ -8,3 +8,10 @@ feedback-memory-inference/logs/
 .env
 .env.*
 !.env.example
+
+# FME runtime / local IDE state (changes every prompt — do not track)
+.cursor/.DS_Store
+.cursor/hooks/prompt_buffer.json
+.cursor/hooks/last_batch.json
+.cursor/hooks/batch_snapshot.json
+.cursor/hooks/ollama_metadata.log

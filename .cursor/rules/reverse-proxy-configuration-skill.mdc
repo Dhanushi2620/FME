@@ -1,0 +1,15 @@
+---
+description: "Reverse Proxy Configuration"
+alwaysApply: false
+fme_score: 0.800
+fme_created: "2026-07-17"
+---
+
+# Reverse Proxy Configuration
+
+1. Understand the purpose of a reverse proxy
+2. Identify where to apply force HTTPS in the network architecture (e.g., in front of your app servers)
+3. Configure TLS termination by setting up a reverse proxy like nginx, Caddy, or Cloudflare
+4. Set routing rules for different API paths and requests using the configured proxy
+5. Implement load balancing strategies if needed
+6. Hide internal server details from clients behind the proxy

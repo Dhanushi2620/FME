@@ -1,0 +1,13 @@
+---
+description: "Engineering Workflow for Handling Developer Conversations"
+alwaysApply: false
+fme_score: 0.950
+fme_created: "2026-07-17"
+---
+
+# Engineering Workflow for Handling Developer Conversations
+
+1. Identify and extract reusable engineering practices from developer conversations.
+2. Analyze the provided conversation to identify key points and create actionable rules or workflows.
+3. Buffer relevant prompts and logs for future analysis and automation if needed.
+4. Create a template for consistent rule generation based on common issues identified.

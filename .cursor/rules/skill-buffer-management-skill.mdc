@@ -1,6 +1,6 @@
 ---
 description: "Skill Buffer Management"
-globs: ["src/**/*.ts", "src/**/*.tsx"]
+globs: src/**/*.ts,src/**/*.tsx
 alwaysApply: false
 fme_score: 0.950
 fme_created: "2026-07-16"
@@ -8,6 +8,6 @@ fme_created: "2026-07-16"
 
 # Skill Buffer Management
 
-1. [object Object]
-2. [object Object]
-3. [object Object]
+1. Persist developer prompts in `.cursor/hooks/prompt_buffer.json` via BufferManager.
+2. Process unprocessed buffer entries on the CronService batch cycle; mark them with `batchProcessed`.
+3. Every 24 hours, extract reusable workflow skills from the prompt buffer and clean up old entries.

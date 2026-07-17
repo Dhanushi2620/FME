@@ -1,0 +1,13 @@
+---
+description: "Reusing Log Truncation Removal"
+globs: src/**/*.js
+alwaysApply: false
+fme_score: 0.900
+fme_created: "2026-07-17"
+---
+
+# Reusing Log Truncation Removal
+
+1. Find and Remove Truncations in src/services/batch/
+2. Check & Remove Truncations in src/services/evaluation/
+3. Ensure No Truncations in ollama_metadata.log

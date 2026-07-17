@@ -1,6 +1,6 @@
 ---
 description: "Engineering Workflow for Secure & Maintainable Codebase"
-globs: ["prisma/**/*.prisma", "src/**/*.ts"]
+globs: prisma/**/*.prisma,src/**/*.ts
 alwaysApply: false
 fme_score: 0.950
 fme_created: "2026-07-17"

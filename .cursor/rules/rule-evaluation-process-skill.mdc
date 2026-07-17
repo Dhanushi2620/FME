@@ -1,0 +1,14 @@
+---
+description: "Rule Evaluation Process"
+alwaysApply: false
+fme_score: 0.950
+fme_created: "2026-07-17"
+---
+
+# Rule Evaluation Process
+
+1. Submit a prompt to the IDE
+2. Buffered prompt in BART for later processing
+3. BART classifies and keeps relevant entries (if confidence high)
+4. Metadata extraction, deduplication, and ChromaDB upsert if kept entry is strong enough
+5. RuleEvaluator.evaluate() runs on successfully stored memory, degrading score for 'CONTRADICT' judgment only if topic .mdc already exists

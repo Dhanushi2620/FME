@@ -1,0 +1,12 @@
+---
+description: "Cursor AI Setup and Maintenance"
+alwaysApply: false
+fme_score: 1.000
+fme_created: "2026-07-17"
+---
+
+# Cursor AI Setup and Maintenance
+
+1. Updated README.md with new top description, added performance section, and updated repo URL.
+2. Integrated changes in `stop-fme.sh` script to stop all Cursor AI sidecars using broader pkill patterns.
+3. Pushed updates for `README.md` with clone URLs and `.cursor/hooks/last_batch.json`, `prompt_buffer.json` details.

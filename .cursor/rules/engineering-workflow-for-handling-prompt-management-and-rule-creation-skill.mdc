@@ -1,6 +1,6 @@
 ---
 description: "Engineering Workflow for Handling Prompt Management and Rule Creation"
-globs: ["src/services/**/*.ts", "src/events/**/*.ts"]
+globs: src/services/**/*.ts,src/events/**/*.ts
 alwaysApply: false
 fme_score: 0.800
 fme_created: "2026-07-17"

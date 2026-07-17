@@ -1,0 +1,12 @@
+---
+description: "Set Up HTTPS and Redis Configuration"
+globs: src/services/**/*.ts,src/events/**/*.ts
+alwaysApply: false
+fme_score: 1.000
+fme_created: "2026-07-17"
+---
+
+# Set Up HTTPS and Redis Configuration
+
+1. Set HTTPS Only Policy
+2. Move Session Management to Redis

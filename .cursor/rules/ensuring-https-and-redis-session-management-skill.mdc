@@ -1,6 +1,6 @@
 ---
 description: "Ensuring HTTPS and Redis Session Management"
-globs: ["src/services/**/*.ts", "src/events/**/*.ts"]
+globs: src/services/**/*.ts,src/events/**/*.ts
 alwaysApply: false
 fme_score: 0.900
 fme_created: "2026-07-17"

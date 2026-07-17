@@ -1,0 +1,14 @@
+---
+description: "Batch Log Truncation Removal Workflow"
+globs: src/**/*.ts,src/**/*.tsx
+alwaysApply: false
+fme_score: 0.950
+fme_created: "2026-07-17"
+---
+
+# Batch Log Truncation Removal Workflow
+
+1. Identify and locate all occurrences of .slice() or any character limit in BatchWriteService.ts, CronService.ts, and RuleEvaluator.ts.
+2. Remove all instances of .slice() and any other character limits on logged fields.
+3. Check ollama_metadata.log for truncated logs and ensure full content is written.
+4. Rebuild the project following instructions to ensure no changes affect functionality.

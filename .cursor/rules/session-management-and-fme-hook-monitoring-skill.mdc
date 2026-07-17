@@ -1,0 +1,13 @@
+---
+description: "Session Management and FME Hook Monitoring"
+globs: src/services/**/*.ts,src/events/**/*.ts
+alwaysApply: false
+fme_score: 0.900
+fme_created: "2026-07-17"
+---
+
+# Session Management and FME Hook Monitoring
+
+1. Identify session management to Redis in production environment.
+2. Monitor FM hook execution status for relevant prompts.
+3. Check for memory match / enrichment issues causing prompt responses.

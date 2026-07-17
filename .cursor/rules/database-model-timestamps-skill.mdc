@@ -1,6 +1,6 @@
 ---
 description: "Database Model Timestamps"
-globs: ["prisma/**/*.prisma"]
+globs: prisma/**/*.prisma
 alwaysApply: false
 fme_score: 1.000
 fme_created: "2026-07-17"

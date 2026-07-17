@@ -1,0 +1,12 @@
+---
+description: "HTTP and Session Management"
+globs: src/services/**/*.ts,src/events/**/*.ts
+alwaysApply: false
+fme_score: 0.950
+fme_created: "2026-07-17"
+---
+
+# HTTP and Session Management
+
+1. Ensure HTTPS in production
+2. Move session management to Redis
