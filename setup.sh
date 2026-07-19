@@ -191,23 +191,29 @@ elif is_windows; then
     # Windows global hooks install
     CURSOR_WIN_DIR="${APPDATA}/.cursor"
     mkdir -p "$CURSOR_WIN_DIR/hooks"
-    echo "$REPO_DIR" > "$CURSOR_WIN_DIR/fme-root.txt"
-    cat > "$CURSOR_WIN_DIR/hooks.json" <<'HOOKS_EOF'
+    FME_DIR="$REPO_DIR"
+    echo "$FME_DIR" > "$CURSOR_WIN_DIR/fme-root.txt"
+    cat > "$CURSOR_WIN_DIR/hooks.json" << EOF
 {
   "version": 1,
   "hooks": {
     "beforeSubmitPrompt": [
       {
-        "command": "hooks/capture-feedback.sh",
+        "command": "$FME_DIR/.cursor/hooks/capture-feedback.sh",
+        "timeout": 30
+      }
+    ],
+    "afterAgentResponse": [
+      {
+        "command": "$FME_DIR/.cursor/hooks/capture-response.sh",
         "timeout": 30
       }
     ]
   }
 }
-HOOKS_EOF
-    cp "$REPO_DIR/.cursor/hooks/capture-feedback.sh" \
-       "$CURSOR_WIN_DIR/hooks/capture-feedback.sh"
-    chmod +x "$CURSOR_WIN_DIR/hooks/capture-feedback.sh"
+EOF
+    chmod +x "$FME_DIR/.cursor/hooks/capture-feedback.sh" \
+             "$FME_DIR/.cursor/hooks/capture-response.sh"
     echo "   Cursor hooks installed for Windows."
 fi
 
@@ -215,23 +221,29 @@ fi
 if ! is_windows; then
     echo "[6/6] Installing Cursor hooks globally..."
     mkdir -p "$HOME/.cursor/hooks"
-    echo "$REPO_DIR" > "$HOME/.cursor/fme-root.txt"
-    cat > "$HOME/.cursor/hooks.json" <<'HOOKS_EOF'
+    FME_DIR="$REPO_DIR"
+    echo "$FME_DIR" > "$HOME/.cursor/fme-root.txt"
+    cat > "$HOME/.cursor/hooks.json" << EOF
 {
   "version": 1,
   "hooks": {
     "beforeSubmitPrompt": [
       {
-        "command": "hooks/capture-feedback.sh",
+        "command": "$FME_DIR/.cursor/hooks/capture-feedback.sh",
+        "timeout": 30
+      }
+    ],
+    "afterAgentResponse": [
+      {
+        "command": "$FME_DIR/.cursor/hooks/capture-response.sh",
         "timeout": 30
       }
     ]
   }
 }
-HOOKS_EOF
-    cp "$REPO_DIR/.cursor/hooks/capture-feedback.sh" \
-       "$HOME/.cursor/hooks/capture-feedback.sh"
-    chmod +x "$HOME/.cursor/hooks/capture-feedback.sh"
+EOF
+    chmod +x "$FME_DIR/.cursor/hooks/capture-feedback.sh" \
+             "$FME_DIR/.cursor/hooks/capture-response.sh"
 else
     echo "[6/6] Cursor hooks already installed (Windows step above)."
 fi
