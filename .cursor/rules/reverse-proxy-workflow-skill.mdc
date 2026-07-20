@@ -1,12 +1,13 @@
 ---
 description: "Reverse Proxy Workflow"
 alwaysApply: false
-fme_score: 1.000
+fme_score: 0.900
 fme_created: "2026-07-17"
 ---
 
 # Reverse Proxy Workflow
 
-1. Understand the concept
-2. Identify roles of a reverse proxy
-3. List common use cases
+1. Understand the role of a reverse proxy
+2. Identify use cases for a reverse proxy (e.g. load balancing, hiding internal IPs)
+3. Implement HTTPS termination with a reverse proxy (e.g., nginx, Caddy, ALB)
+4. Configure your application to communicate with the backend through the reverse proxy

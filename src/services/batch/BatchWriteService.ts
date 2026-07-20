@@ -1,6 +1,10 @@
 /**
  * Batch WRITE path — classifies buffered prompts, extracts metadata, deduplicates,
  * and persists memories in bulk.
+ *
+ * Live Cursor WRITE path (Cron). Uses BART 5-way candidate labels (LABELS_5WAY) —
+ * Correction / Decision / AntiPattern / TaskLearning / NotMemoryWorthy — not the
+ * LEGACY WRITE / READ / ANSWER_ONLY intents in intent.config / BartIntentProvider.
  */
 
 import * as fs from "fs";
@@ -50,6 +54,7 @@ const LABEL_TO_CATEGORY: Record<string, string> = {
 const NOT_MEMORY_WORTHY = "NotMemoryWorthy";
 const CONFIDENCE_THRESHOLD = 0.5;
 const METADATA_QUALITY_THRESHOLD = 0.6;
+
 const DEDUPLICATION_SIMILARITY_THRESHOLD = 0.92;
 
 const toIST = (): string => {

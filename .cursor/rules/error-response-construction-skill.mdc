@@ -1,0 +1,12 @@
+---
+description: "Error Response Construction"
+alwaysApply: false
+fme_score: 0.950
+fme_created: "2026-07-18"
+---
+
+# Error Response Construction
+
+1. Capture Error Server-Side
+2. Return Generic Client Message
+3. Log Correlation ID

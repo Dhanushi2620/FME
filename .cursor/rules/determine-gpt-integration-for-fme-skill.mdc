@@ -1,0 +1,13 @@
+---
+description: "Determine GPT Integration for FME"
+alwaysApply: false
+fme_score: 0.850
+fme_created: "2026-07-19"
+---
+
+# Determine GPT Integration for FME
+
+1. Understand current configuration and lack of live GPT integration in FME
+2. Clarify the need for GPT Pro mode using environment variables
+3. Draft a clear explanation for potential users regarding GPT options
+4. Create a slide with configurations for community/local and pro modes

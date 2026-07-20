@@ -1,0 +1,14 @@
+---
+description: "Managing HTTP and Session Storage"
+alwaysApply: false
+fme_score: 0.950
+fme_created: "2026-07-18"
+---
+
+# Managing HTTP and Session Storage
+
+1. Understand developer requirements for HTTPS usage in production and ensure that production traffic is served over HTTPS only.
+2. Create a reusable workflow to enforce HTTPS-only policy for APIs serving from the platform, including handling local development environments appropriately.
+3. For FME testing scenarios, buffer prompts and evaluate them before creating a rule; do not automatically create new rules based on such prompts in Agent or Ask mode.
+4. When moving session management to Redis, confirm that sessions are stored exclusively in Redis without lingering in the database.
+5. Handle stale log tabs by refreshing logs to see more recent hook start notifications, especially if the prompt was around line 6389.

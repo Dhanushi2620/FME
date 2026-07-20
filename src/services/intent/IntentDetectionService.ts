@@ -1,9 +1,12 @@
 /**
  * Intent Detection Service
  *
- * Public API for intent classification. All consumers (hook, MCP, pipelines) should
- * depend on this service — never on {@link IntentDetectionProvider} implementations
- * or the provider factory directly.
+ * LEGACY for the live Cursor hook: processBeforeSubmitPrompt no longer calls this
+ * for WRITE/READ/ANSWER_ONLY routing. Still used by WritePipeline / MCP add-memory.
+ *
+ * Public API for intent classification. Consumers that still need 3-way intent
+ * should depend on this service — never on {@link IntentDetectionProvider}
+ * implementations or the provider factory directly.
  *
  * The service obtains the configured provider via {@link createIntentDetectionProvider},
  * delegates classification, and applies confidence thresholds from intent configuration.

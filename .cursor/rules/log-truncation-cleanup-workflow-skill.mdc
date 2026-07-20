@@ -1,0 +1,14 @@
+---
+description: "Log Truncation Cleanup Workflow"
+globs: ["src/**/*.ts", "src/**/*.tsx"]
+alwaysApply: false
+fme_score: 0.950
+fme_created: "2026-07-18"
+---
+
+# Log Truncation Cleanup Workflow
+
+1. Identify all batchLog lines in src/services/batch/BatchWriteService.ts and other relevant files that use .slice() or any character limits on fields.
+2. Remove all instances of .slice() and similar methods from the identified log lines.
+3. Check and remove any remaining truncations in src/services/batch/CronService.ts and src/services/evaluation/RuleEvaluator.ts.
+4. Verify that no truncated fields are logged in ollama_metadata.log by removing any relevant `.slice()` or similar operations there.

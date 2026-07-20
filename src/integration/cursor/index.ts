@@ -4,6 +4,10 @@
  * Buffers every prompt for later cron batch WRITE processing.
  * Retrieval (READ) runs blocking on every prompt.
  *
+ * Does NOT use LEGACY WRITE / READ / ANSWER_ONLY intent routing — returned intent
+ * is Unknown for API compatibility. Live memory classification happens in
+ * BatchWriteService (BART 5-way) on the Cron batch path.
+ *
  * Production hook execution uses compiled output from `npm run build:hook`
  * (see `tsconfig.hook.json`). Rebuild after changing this module or its
  * dependencies before running the Cursor hook via `dist/hook/`.

@@ -1,0 +1,15 @@
+---
+description: "Prompt Evaluation Workflow"
+alwaysApply: false
+fme_score: 0.900
+fme_created: "2026-07-17"
+---
+
+# Prompt Evaluation Workflow
+
+1. Buffer Prompt in IDE
+2. Run Cron Job to Process Buffer (every 15 minutes)
+3. BART Classify Prompts and Filter Kept Entries
+4. Ollama Generate Metadata for Kept Prompts
+5. ChromaDB Similiarity Search & Upsert Memory (if valid entry)
+6. RuleEvaluator.evaluate() if Memory is Stored (not after every prompt)

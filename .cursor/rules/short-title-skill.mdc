@@ -1,0 +1,13 @@
+---
+description: "short title"
+globs: ["src/**/*.ts", "src/**/*.tsx"]
+alwaysApply: false
+fme_score: 0.950
+fme_created: "2026-07-18"
+---
+
+# short title
+
+1. Create and Configure Config Files
+2. Use Factory to Swap Providers
+3. Tune READ Behavior via Env Vars

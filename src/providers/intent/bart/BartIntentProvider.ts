@@ -1,6 +1,10 @@
 /**
  * BART-MNLI Intent Detection Provider
  *
+ * LEGACY: maps BART scores to WRITE / READ / ANSWER_ONLY for WritePipeline / MCP.
+ * The live Cursor batch path calls the same :8001 classify API with different
+ * candidate labels (5-way memory categories) from BatchWriteService — not this provider.
+ *
  * Provider boundary
  * -----------------
  * This module is the only layer that knows about BART-MNLI, HuggingFace model IDs,

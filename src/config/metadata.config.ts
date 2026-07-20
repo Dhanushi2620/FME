@@ -143,17 +143,6 @@ export const DEFAULT_QWEN_METADATA_OPTIONS: QwenMetadataProviderOptions = {
   temperature: 0.1,
 };
 
-/** @deprecated Use {@link DEFAULT_QWEN_METADATA_OPTIONS} — kept for registry compatibility. */
-export const DEFAULT_CURSOR_AGENT_METADATA_OPTIONS: CursorAgentMetadataProviderOptions =
-  {
-    inference: {
-      serviceUrl: "http://127.0.0.1:8002",
-      timeoutMs: 25_000,
-      modelId: "qwen2.5:3b",
-    },
-    agentId: "default",
-  };
-
 /**
  * Default metadata extraction configuration.
  *

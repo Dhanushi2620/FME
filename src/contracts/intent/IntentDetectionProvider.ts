@@ -13,8 +13,11 @@
 /**
  * Pipeline-level intent labels returned by every intent detection provider.
  *
- * Intent detection classifies prompts into one of three pipeline intents only.
- * Feedback subtypes (Correction, Decision, etc.) belong to metadata extraction.
+ * LEGACY 3-way labels (WRITE / READ / ANSWER_ONLY). The live Cursor hook returns
+ * Unknown and does not route on these; batch WRITE classifies with 5-way BART
+ * hypotheses in BatchWriteService instead.
+ *
+ * Feedback subtypes (Correction, Decision, etc.) belong to the batch WRITE path.
  */
 export type DetectedIntent = "WRITE" | "READ" | "ANSWER_ONLY" | "Unknown";
 

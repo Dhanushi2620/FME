@@ -1,0 +1,13 @@
+---
+description: "Create a Workflow for Configurable LLM Provider in FME"
+alwaysApply: false
+fme_score: 0.950
+fme_created: "2026-07-19"
+---
+
+# Create a Workflow for Configurable LLM Provider in FME
+
+1. Define the configuration schema for different LLM providers (Ollama, GPT/Cl Claude)
+2. Implement environment variables to handle API keys and other configurations for different LLMs
+3. Modify existing pipelines to support multiple LLM models without code changes
+4. Create a new module to manage and switch between Ollama and GPT/Cl Claude as needed

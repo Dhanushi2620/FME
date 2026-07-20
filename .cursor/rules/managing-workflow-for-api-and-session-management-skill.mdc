@@ -1,0 +1,15 @@
+---
+description: "Managing Workflow for API and Session Management"
+globs: ["src/**/*.ts", "prisma/**/*.prisma", "src/services/**/*.ts", "src/events/**/*.ts"]
+alwaysApply: false
+fme_score: 0.800
+fme_created: "2026-07-17"
+---
+
+# Managing Workflow for API and Session Management
+
+1. Instruct AI to monitor FME logs for `Hook started` events, even if no data is found.
+2. When prompted about a missing `Hook`, instruct the AI to reload or tail the log file.
+3. Instruct AI to create reusable steps for different API and session management scenarios.
+4. Create a step to verify Redis usage based on provided logs.
+5. Establish a rule creation process when specific prompts are received.

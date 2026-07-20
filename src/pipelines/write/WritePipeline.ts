@@ -1,11 +1,12 @@
 /**
  * Write Pipeline Contract
  *
- * Public API for the Feedback Memory Engine WRITE path. Consumers (hook, MCP)
- * should depend on this pipeline — not on individual engine services.
+ * Public API for the Feedback Memory Engine WRITE path (MCP add-memory / engine).
+ * The live Cursor hook does NOT use this pipeline for persistence — it buffers
+ * prompts and relies on Cron → BatchWriteService (5-way BART + Ollama).
  *
- * This module orchestrates the full WRITE path: intent detection, metadata
- * extraction, business validation, embedding, and vector storage.
+ * This module still uses LEGACY 3-way intent detection (WRITE / READ / ANSWER_ONLY)
+ * before metadata extraction, embedding, and vector storage.
  */
 
 import { DetectedIntent } from "../../contracts/intent";

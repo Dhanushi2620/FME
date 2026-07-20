@@ -1,9 +1,14 @@
 /**
  * Intent classification labels produced by intent detection providers.
  *
- * Intent detection answers a single question: which pipeline should handle this prompt?
- * It does not classify feedback subtypes (Correction, Decision, etc.) — that belongs
- * to metadata extraction on the WRITE path.
+ * LEGACY (WRITE / READ / ANSWER_ONLY): used by WritePipeline / MCP add-memory and the
+ * BartIntentProvider 3-way path. The live Cursor hook does NOT classify prompts this
+ * way — it buffers every prompt and always runs READ; batch WRITE uses BART 5-way
+ * labels in BatchWriteService (Correction, Decision, AntiPattern, TaskLearning,
+ * NotMemoryWorthy).
+ *
+ * Intent detection answers: which pipeline should handle this prompt?
+ * It does not classify feedback subtypes — that belongs to the batch WRITE path.
  */
 export type IntentClassificationLabel = "WRITE" | "READ" | "ANSWER_ONLY";
 
@@ -157,7 +162,10 @@ export interface IntentDetectionConfig {
   thresholds: IntentDetectionThresholdsConfig;
 }
 
-/** Default intent classification labels for ML-backed providers. */
+/**
+ * Default intent classification labels for ML-backed providers.
+ * LEGACY 3-way routing labels — not used by the live Cursor hook / Cron batch path.
+ */
 export const DEFAULT_INTENT_CANDIDATE_LABELS: readonly IntentClassificationLabel[] =
   ["WRITE", "READ", "ANSWER_ONLY"] as const;
 
@@ -182,6 +190,9 @@ export const DEFAULT_BART_MNLI_PROVIDER_OPTIONS: BartMnliIntentProviderOptions =
 
 /**
  * Default intent detection configuration.
+ *
+ * LEGACY: powers the 3-way WRITE/READ/ANSWER_ONLY classifier for WritePipeline/MCP.
+ * Live hook path ignores this and uses buffer + READ + BatchWriteService 5-way BART.
  *
  * Swap providers by changing `provider.id` and the matching `provider.options`
  * entry — no business logic changes required.

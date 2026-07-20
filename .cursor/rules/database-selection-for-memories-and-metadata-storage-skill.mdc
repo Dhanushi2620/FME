@@ -1,0 +1,11 @@
+---
+description: "Database Selection for Memories and Metadata Storage"
+alwaysApply: false
+fme_score: 1.000
+fme_created: "2026-07-19"
+---
+
+# Database Selection for Memories and Metadata Storage
+
+1. Understand the need for a database to store memories and metadata.
+2. Identify the chosen database (ChromaDB) based on the requirements and previous context.

@@ -1,0 +1,13 @@
+---
+description: "Configurability Without Rewrites"
+globs: ["src/**/*.js"]
+alwaysApply: false
+fme_score: 1.000
+fme_created: "2026-07-18"
+---
+
+# Configurability Without Rewrites
+
+1. Open config files for intent and metadata
+2. Edit provider IDs or model configurations in one place
+3. Tune ranking, selection, and retrieval configurations without modifying pipeline code

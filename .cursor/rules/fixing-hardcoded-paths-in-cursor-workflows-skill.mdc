@@ -1,0 +1,11 @@
+---
+description: "Fixing Hardcoded Paths in Cursor Workflows"
+alwaysApply: false
+fme_score: 1.000
+fme_created: "2026-07-19"
+---
+
+# Fixing Hardcoded Paths in Cursor Workflows
+
+1. Identify and Fix Hardcoded Paths
+2. Apply Changes to Multiple Files

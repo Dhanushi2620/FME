@@ -1,0 +1,14 @@
+---
+description: "Database and Vector Store Selection"
+globs: ["src/**/*.ts", "prisma/**/*.prisma"]
+alwaysApply: false
+fme_score: 1.000
+fme_created: "2026-07-19"
+---
+
+# Database and Vector Store Selection
+
+1. Understand project requirements for storing memories and metadata.
+2. Decide on the primary database (PostgreSQL).
+3. Establish rule against introducing other databases post-decision making.
+4. Select ChromaDB as the sole vector store solution.

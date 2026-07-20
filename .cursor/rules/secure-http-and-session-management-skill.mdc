@@ -1,0 +1,12 @@
+---
+description: "Secure HTTP and Session Management"
+globs: ["src/services/**/*.ts", "src/events/**/*.ts"]
+alwaysApply: false
+fme_score: 1.000
+fme_created: "2026-07-17"
+---
+
+# Secure HTTP and Session Management
+
+1. Detect and Disallow HTTP Traffic
+2. Move Session Management to Redis

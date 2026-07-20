@@ -1,0 +1,14 @@
+---
+description: "Reverse Proxy Configuration in Production"
+alwaysApply: false
+fme_score: 0.950
+fme_created: "2026-07-18"
+---
+
+# Reverse Proxy Configuration in Production
+
+1. Identify and configure a reverse proxy (e.g., Nginx, Caddy, ALB, Cloudflare) to terminate TLS and route traffic.
+2. Ensure the proxy forces HTTPS for all incoming connections.
+3. Configure the reverse proxy to load balance requests across your app servers.
+4. Use the proxy to hide internal server addresses from clients.
+5. Implement additional cross-cutting concerns like rate limiting, authentication gates, caching, compression, access logs, and WAF rules using the reverse proxy.
