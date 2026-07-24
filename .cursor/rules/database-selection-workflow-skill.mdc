@@ -1,0 +1,13 @@
+---
+description: "Database Selection Workflow"
+alwaysApply: false
+fme_score: 0.950
+fme_created: "2026-07-21"
+---
+
+# Database Selection Workflow
+
+1. Understand requirement
+2. Identify available options
+3. Choose ChromaDB as the sole vector store
+4. Inform project team of selection

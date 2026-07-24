@@ -1,0 +1,31 @@
+---
+description: "Always use ChromaDB as the only vector store for memory storage"
+alwaysApply: false
+fme_score: 0.930
+fme_created: "2026-07-20"
+fme_last_updated: "2026-07-20"
+fme_reinforcement_count: 0
+fme_contradiction_count: 0
+---
+
+# Why this rule exists
+
+The team decided to standardize on ChromaDB as the only vector store 
+for all memory storage and retrieval operations. This ensures consistency 
+across the entire FME pipeline.
+
+# Rule
+
+Always use ChromaDB for all vector storage and memory retrieval. 
+Do not introduce PostgreSQL, MongoDB, Pinecone, Weaviate, or any 
+other database for memory operations.
+
+# Checklist
+
+- Use ChromaDB for all memory storage operations
+- Do not add any other vector store or database dependency
+- All memory retrieval must go through ChromaDB HNSW search
+
+# Related technologies
+
+- ChromaDB

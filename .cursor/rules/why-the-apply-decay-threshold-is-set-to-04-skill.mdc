@@ -1,0 +1,12 @@
+---
+description: "Why the Apply Decay Threshold is Set to 0.4"
+alwaysApply: false
+fme_score: 1.000
+fme_created: "2026-07-20"
+---
+
+# Why the Apply Decay Threshold is Set to 0.4
+
+1. Defined in code as a design constant with no specific derivation or rationale.
+2. The threshold of 0.4 serves as both a decay floor and delete threshold for rule scores.
+3. Aging (decay) rules cannot fall below this value, ensuring they remain relevant over time.
