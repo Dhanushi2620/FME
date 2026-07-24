@@ -2,33 +2,97 @@
 
 ## Overview
 
-FME uses a three-layer pattern to make every AI component swappable without touching pipelines.
+FME uses one **common** three-layer pattern for every swappable AI / infra component.
 
 | Layer | Role |
 |-------|------|
-| **Config** | Selects **WHAT** to use |
-| **Factory** | Builds **WHICH** class |
-| **Provider** | Runs **HOW** with that config |
+| **Config** | Selects **WHAT** to use (`provider.id` + options) |
+| **Factory** | Builds **WHICH** class from that id |
+| **Provider** | Runs **HOW** using only the injected config |
 
-Pipelines, hooks, ChromaDB, and rules never change when you swap a provider.
+Pipelines, hooks, services, and MCP never import concrete provider classes.  
+Swap a backend by changing config (+ registering a new provider if needed) — not by rewriting READ/WRITE/rules.
 
 ```
-metadata.config.ts          →  id: "qwen" | "openai" | …
+*.config.ts                 →  provider.id = "…"
         ↓
-MetadataProviderFactory.ts  →  new Ollama… / new OpenAI…
+*ProviderFactory.ts         →  registry[id](config)
         ↓
-*MetadataExtractionProvider →  HTTP call / LLM inference
+*Provider (interface)       →  HTTP / local model / cloud API
         ↓
-MetadataExtractionService / pipelines  (unchanged)
+Services / pipelines        →  unchanged
 ```
+
+This doc explains the **common pattern first**, then walks through **metadata extraction as a concrete example**. The same steps apply to intent, embeddings, and vector store.
 
 ---
 
-## The Three Layers
+## Where the Pattern Applies (common)
 
-### Layer 1 — Config (`src/config/metadata.config.ts`)
+| Concern | Config | Factory | Contract | Default id today |
+|---------|--------|---------|----------|------------------|
+| **Metadata extraction** | `src/config/metadata.config.ts` | `MetadataProviderFactory.ts` | `MetadataExtractionProvider` | `"qwen"` |
+| **Intent classification** | `src/config/intent.config.ts` | `IntentProviderFactory.ts` | `IntentDetectionProvider` | `"bart-mnli"` |
+| **Embeddings** | `src/config/embedding.config.ts` | `EmbeddingProviderFactory.ts` | `EmbeddingProvider` | `"minilm-l6-v2"` |
+| **Vector store** | `src/config/vector-store.config.ts` | `VectorStoreProviderFactory.ts` | `VectorStoreProvider` | `"chromadb"` |
 
-This is the **primary** file you change to switch providers.
+Every factory follows the same recipe:
+
+1. Implement the contract under `src/providers/<area>/<name>/`
+2. Add one registry line in the factory
+3. Set `provider.id` in the matching config
+4. **No** changes to pipelines, hooks, ChromaDB call sites, or rule evaluation logic
+
+---
+
+## The Three Layers (common)
+
+### Layer 1 — Config
+
+Each concern has a config object shaped like:
+
+```typescript
+{
+  provider: {
+    id: "<provider-id>",      // ← switch implementation here
+    options: { /* provider-specific */ },
+  },
+  // optional shared knobs (thresholds, etc.)
+}
+```
+
+You change **`id`** (and matching `options`) to select a different backend.  
+You do **not** change services that call `createXProvider()`.
+
+### Layer 2 — Factory
+
+Maps `id` → constructor. Business code only sees the interface:
+
+```typescript
+const REGISTRY = {
+  "current-default": (config) => new CurrentProvider(config),
+  // "new-backend": (config) => new NewProvider(config),
+};
+
+export const createXProvider = (config = X_CONFIG) => {
+  const factory = REGISTRY[config.provider.id];
+  if (!factory) throw new UnknownXProviderError(config.provider.id);
+  return factory(config);
+};
+```
+
+### Layer 3 — Provider
+
+Implements the contract. Reads URLs, model ids, timeouts, API keys from **injected config / env** — not from hardcoded product defaults scattered in pipelines.
+
+---
+
+## Example: Metadata Extraction
+
+> Metadata is one application of the pattern — not the only configurable piece.  
+> Today the default metadata backend happens to be the local sidecar + Ollama (`id: "qwen"`). You can swap that for OpenAI, Claude, rule-based, etc. the same way you would swap intent or embeddings.
+
+### Layer 1 — `metadata.config.ts`
 
 ```typescript
 export const METADATA_CONFIG: MetadataExtractionConfig = {
@@ -42,25 +106,31 @@ export const METADATA_CONFIG: MetadataExtractionConfig = {
 };
 ```
 
-**Typed provider ids today** (`MetadataExtractionProviderId`):
+**Typed metadata provider ids** (`MetadataExtractionProviderId`):
 
 | Id | Meaning |
 |----|---------|
-| `"qwen"` | Ollama qwen2.5:3b via metadata sidecar `:8002` (**current default**) |
-| `"cursor-agent"` | Same Ollama provider class; agent-oriented options |
+| `"qwen"` | Local metadata sidecar `:8002` (default; often backed by Ollama) |
+| `"cursor-agent"` | Same extraction provider class; agent-oriented options |
 | `"gemma"` | Reserved in config types (wire in factory when implemented) |
 | `"claude"` | Reserved in config types (wire in factory when implemented) |
 | `"custom"` | Open-ended options bag for experiments |
 
-**Related (not a TS factory id):** set `METADATA_PROVIDER=rule-based` on the **Python** metadata sidecar (`:8002`) for a zero-dependency fallback without Ollama.
+**Sidecar-only fallback (not a TS factory id):** set `METADATA_PROVIDER=rule-based` on the Python service on `:8002` for zero-dependency extraction without a local LLM.
 
-To add `"openai"`, also extend the `MetadataExtractionProviderId` union and `MetadataExtractionProviderOptionsMap` in the same config file.
+To add `"openai"`, extend the id union + options map in `metadata.config.ts`, then register it in the factory.
 
----
+Default Qwen options (illustrative — still just **config**, not a pipeline hardcode):
 
-### Layer 2 — Factory (`src/composition/MetadataProviderFactory.ts`)
+```typescript
+inference: {
+  serviceUrl: "http://127.0.0.1:8002",
+  timeoutMs: 25_000,
+  modelId: "qwen2.5:3b",
+}
+```
 
-Maps provider id → concrete class. Add **one line** to support a new provider.
+### Layer 2 — `MetadataProviderFactory.ts`
 
 ```typescript
 const METADATA_PROVIDER_REGISTRY = {
@@ -70,48 +140,45 @@ const METADATA_PROVIDER_REGISTRY = {
 };
 ```
 
-Factory comment (source of truth):
+Factory guidance (same wording as intent / embedding / vector-store factories):
 
-> To add a new provider:  
-> 1. Implement `MetadataExtractionProvider` under `providers/extraction/<name>/`.  
-> 2. Add one entry here mapping the config id to `new Provider(config)`.  
+> 1. Implement the provider interface under `providers/extraction/<name>/`.  
+> 2. Add one entry mapping the config id to `new Provider(config)`.  
 > 3. No changes required in services, pipelines, hooks, or MCP.
 
-Callers receive the **interface** only — never a concrete class from business logic.
+### Layer 3 — Provider
 
----
-
-### Layer 3 — Provider (`src/providers/extraction/ollama/OllamaMetadataExtractionProvider.ts`)
-
-Reads everything from injected config — hardcodes nothing about which model id or URL is “the product default” outside config.
+Example default implementation: `OllamaMetadataExtractionProvider`  
+Contract method: `extractMetadata(input) → MetadataExtractionResult`  
+(`src/contracts/extraction/MetadataExtractionProvider.ts`)
 
 ```typescript
 constructor(
   config: MetadataExtractionConfig,
-  private readonly extractionClient: OllamaMetadataExtractionClient = new HttpOllamaMetadataExtractionClient()
+  private readonly extractionClient = new HttpOllamaMetadataExtractionClient()
 ) {
   this.providerId = config.provider.id;
-  // options / inference.serviceUrl / modelId come from config.provider.options
+  // serviceUrl / modelId / timeout come from config.provider.options
 }
 ```
 
-The provider implements:
+**One possible runtime path (current default):**  
+TypeScript provider → `POST :8002/v1/metadata/extract` → sidecar → local LLM on `:11434`.  
 
-```typescript
-extractMetadata(input: MetadataExtractionInput): Promise<MetadataExtractionResult>;
-```
+**Another possible path (after you add a provider):**  
+TypeScript provider → OpenAI / Anthropic HTTPS API directly.  
 
-Contract: `src/contracts/extraction/MetadataExtractionProvider.ts`.
-
-**Default path today:** TypeScript provider → HTTP `POST http://127.0.0.1:8002/v1/metadata/extract` → Python sidecar → Ollama `:11434`.
+Both are still “config → factory → provider.” Only the provider class and `id` change.
 
 ---
 
-## Example — Adding OpenAI (ChatGPT) as Provider
+## Worked Example — Add OpenAI as a Metadata Provider
 
-### Step 1 — Create new provider file
+Same three steps you would use for any concern (intent, embedding, vector store).
 
-Create: `src/providers/extraction/openai/OpenAIMetadataExtractionProvider.ts`
+### Step 1 — New provider file
+
+`src/providers/extraction/openai/OpenAIMetadataExtractionProvider.ts`
 
 ```typescript
 import {
@@ -131,7 +198,9 @@ export class OpenAIMetadataExtractionProvider
   constructor(private readonly config: MetadataExtractionConfig) {
     this.providerId = config.provider.id;
     this.apiKey = process.env.OPENAI_API_KEY || "";
-    const options = config.provider.options as { inference?: { modelId?: string } };
+    const options = config.provider.options as {
+      inference?: { modelId?: string };
+    };
     this.model = options.inference?.modelId || "gpt-4o-mini";
   }
 
@@ -160,29 +229,19 @@ export class OpenAIMetadataExtractionProvider
     const parsed = JSON.parse(content);
 
     return {
-      metadata: parsed,
-      // map fields to ExtractedMetadata shape expected by the service
+      metadata: parsed, // map to ExtractedMetadata
     };
   }
 }
 ```
 
-Also export from `src/providers/extraction/openai/index.ts` if you follow the existing package layout.
-
-### Step 2 — Extend config types + add one line to factory
-
-In `metadata.config.ts`, add `"openai"` to the id union and options map.
-
-In `MetadataProviderFactory.ts`:
+### Step 2 — One factory line (+ config type id)
 
 ```typescript
-import { OpenAIMetadataExtractionProvider } from "../providers/extraction/openai";
-
-// inside METADATA_PROVIDER_REGISTRY:
 openai: (config) => new OpenAIMetadataExtractionProvider(config),
 ```
 
-### Step 3 — Change one line in config
+### Step 3 — One config line
 
 ```typescript
 // Before
@@ -192,60 +251,96 @@ id: "qwen";
 id: "openai";
 ```
 
-### Step 4 — Add API key to environment
+### Step 4 — Secrets via env (never commit)
 
 ```bash
 export OPENAI_API_KEY=sk-your-key-here
 ```
 
-Prefer loading via `dotenv` / `.env` (gitignored) — never commit the key.
-
-### That is it. Nothing else changes.
+### Unchanged
 
 | Area | Unchanged? |
 |------|------------|
 | READ pipeline | ✅ |
 | WRITE pipeline | ✅ |
 | CronService | ✅ |
-| ChromaDB storage | ✅ |
+| Vector store usage | ✅ |
 | RuleEvaluator | ✅ |
-| Hooks | ✅ |
-| Buffer | ✅ |
+| Hooks / buffer | ✅ |
 
 ---
 
-## Cost Comparison
+## Same Steps for Other Concerns (quick)
 
-| Provider | Cost | Privacy | Quality | Speed |
-|----------|------|---------|---------|-------|
-| Ollama qwen2.5:3b (current) | $0 | 100% local | Good | ~8–15s |
+### Intent — switch classifier
+
+```typescript
+// intent.config.ts
+provider: { id: "bart-mnli", options: { /* … */ } }
+
+// IntentProviderFactory.ts
+"bart-mnli": (config) => new BartIntentProvider(config),
+// "custom-nli": (config) => new CustomIntentProvider(config),
+```
+
+### Embeddings — switch embedder
+
+```typescript
+// embedding.config.ts
+provider: { id: "minilm-l6-v2", options: { /* … */ } }
+
+// EmbeddingProviderFactory.ts
+"minilm-l6-v2": (config) => new MiniLMEmbeddingProvider(config),
+```
+
+### Vector store — switch persistence backend
+
+```typescript
+// vector-store.config.ts
+provider: { id: "chromadb", options: { /* … */ } }
+
+// VectorStoreProviderFactory.ts
+chromadb: (config) => new ChromaDbVectorStoreProvider(config),
+// qdrant: (config) => new QdrantVectorStoreProvider(config),
+```
+
+---
+
+## Cost Comparison (metadata backends — illustrative)
+
+When you use the **metadata** slot as the example, different `id`s imply different cost/privacy tradeoffs:
+
+| Metadata backend (example) | Cost | Privacy | Quality | Speed |
+|----------------------------|------|---------|---------|-------|
+| Local sidecar + small LLM (`qwen` today) | $0 | 100% local | Good | ~8–15s |
 | OpenAI gpt-4o-mini | ~$0.025/day* | Cloud ❌ | Better | ~2s |
 | OpenAI gpt-4o | ~$0.25/day* | Cloud ❌ | Best | ~3s |
 | Anthropic Claude Haiku | ~$0.02/day* | Cloud ❌ | Better | ~1s |
-| rule-based fallback (sidecar) | $0 | 100% local | Basic | ~10ms |
+| Sidecar `rule-based` fallback | $0 | 100% local | Basic | ~10ms |
 
-\*Illustrative order-of-magnitude for light local batch usage — measure against your volume.
+\*Order-of-magnitude for light batch usage — measure against your volume.
+
+Intent / embedding / vector-store swaps have their own cost profiles (e.g. ChromaDB local vs a hosted vector DB).
 
 ---
 
-## Changing Other Settings Without Swapping Provider
+## Tuning Without Swapping Provider
 
-### Change confidence threshold
+These knobs stay inside config (or a single constant) — still no pipeline rewrite.
 
-In `src/config/metadata.config.ts`:
+### Metadata confidence threshold
 
 ```typescript
-thresholds: {
-  minConfidence: 0.8, // was 0.7 — stricter filtering
-}
+// metadata.config.ts
+thresholds: { minConfidence: 0.8 } // was 0.7
 ```
 
-### Change Ollama model (same provider)
+### Metadata model / URL (same provider id)
 
 ```typescript
 options: {
   inference: {
-    modelId: "llama3.2:3b", // swap model, same provider class
+    modelId: "llama3.2:3b", // different model, same provider class
     serviceUrl: "http://127.0.0.1:8002",
     timeoutMs: 25_000,
   },
@@ -253,51 +348,36 @@ options: {
 }
 ```
 
-Ensure the model is available in Ollama (`ollama pull …`).
-
-### Change batch interval
-
-In `src/services/batch/CronService.ts`:
+### Batch interval
 
 ```typescript
+// CronService.ts
 const BATCH_INTERVAL_MS = 10 * 60 * 1000; // 10 min instead of 15
 ```
 
-### Change dedup threshold
-
-Default lives in `src/config/vector-store.config.ts`:
+### Dedup threshold
 
 ```typescript
-export const DEFAULT_DEDUPLICATION_SIMILARITY_THRESHOLD = 0.95; // stricter than 0.92
+// vector-store.config.ts
+export const DEFAULT_DEDUPLICATION_SIMILARITY_THRESHOLD = 0.95; // was 0.92
 ```
 
-Batch path also references `DEDUPLICATION_SIMILARITY_THRESHOLD` in `src/services/batch/BatchWriteService.ts` — keep them aligned if you change one.
-
----
-
-## Same Pattern Elsewhere
-
-| Concern | Config | Factory |
-|---------|--------|---------|
-| Metadata extraction | `metadata.config.ts` | `MetadataProviderFactory.ts` |
-| Intent classification | `intent.config.ts` | `IntentProviderFactory.ts` |
-| Embeddings | `embedding.config.ts` | `EmbeddingProviderFactory.ts` |
-| Vector store | `vector-store.config.ts` | `VectorStoreProviderFactory.ts` |
+Keep `BatchWriteService`’s mirrored constant aligned if you change this.
 
 ---
 
 ## Summary
 
-Three touches to add a new LLM provider:
+**Common rule for every FME concern:**
 
-1. **One new file** — implement `MetadataExtractionProvider`
-2. **One line** — add to factory registry (+ type id in config)
-3. **One line** — change `id` in `METADATA_CONFIG`
+1. **One new file** — implement the area’s provider interface  
+2. **One line** — register it in that area’s factory (+ type id in config)  
+3. **One line** — set `provider.id` in that area’s `*.config.ts`
 
-Zero pipeline changes.  
-Zero hook changes.  
-Zero ChromaDB changes.
+**Metadata** is the worked example in this doc because extraction is where people most often ask “can I plug in ChatGPT?” — not because Ollama is the only configurable thing.
+
+Zero pipeline changes. Zero hook changes. Zero service rewrites.
 
 ---
 
-*Related: [PROJECT_DOCUMENTATION.md](./PROJECT_DOCUMENTATION.md) §9 Configurability*
+*Related: [PROJECT_DOCUMENTATION.md](./PROJECT_DOCUMENTATION.md) §9 · [DATA_SHAPES.md](./DATA_SHAPES.md)*
